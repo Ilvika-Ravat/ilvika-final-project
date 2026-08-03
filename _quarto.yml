@@ -12,6 +12,8 @@ website:
         text: Variables
       - href: results.qmd
         text: Results
+      - href: preceptor-table.qmd
+        text: Model
       - href: study.qmd
         text: Study Context
 

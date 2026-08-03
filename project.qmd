@@ -43,6 +43,10 @@ df <- read_tsv(
 
 # Overview {.panel-tabset}
 
+## About
+
+Ilvika Ravat is the author of this project and is passionate about data science and exploring future opportunities in STEM. She is a rising junior in high school and is eager to continue building her skills in research and analysis.
+
 ## Study overview
 
 This report explores how exam-based assessment relates to student performance in introductory biology using the data file provided in this project. The analysis focuses on how student outcomes vary by gender, academic preparation, underrepresented minority status, course grading design, and other contextual factors.
@@ -102,6 +106,39 @@ var_desc <- tibble::tribble(
 kable(var_desc, caption = "Variable descriptions")
 ```
 
+## More Graphs
+
+The age-based plot illustrates how exam percentages vary by gender and whether that relationship differs for URM and non-URM students.
+
+```{r more-graphs-model2}
+ggplot(df, aes(x = AGE, y = Exams_percent, color = Gender)) +
+  geom_jitter(alpha = 0.45, width = 0.2, height = 0.01, size = 1.8) +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 1) +
+  facet_wrap(~ URM) +
+  labs(
+    title = "Exam performance by age, gender, and URM status",
+    x = "Age",
+    y = "Exam percentage",
+    color = "Gender"
+  ) +
+  scale_color_brewer(palette = "Dark2")
+```
+
+The boxplot summarizes how exam percentages are distributed across gender within each grading scheme, making it easier to compare the spread of outcomes by course structure.
+
+```{r more-graphs-model3}
+ggplot(df, aes(x = Gender, y = Exams_percent, fill = Gender)) +
+  geom_boxplot(alpha = 0.8, outlier.alpha = 0.2) +
+  facet_wrap(~ GRADING_BASIS_ENRL) +
+  labs(
+    title = "Exam performance by gender across grading schemes",
+    x = "Gender",
+    y = "Exam percentage"
+  ) +
+  scale_fill_brewer(palette = "Set2") +
+  theme(legend.position = "none")
+```
+
 ## Results {.panel-tabset}
 
 ### Model 1: academic preparation and demographics
@@ -148,20 +185,6 @@ model2_tidy <- tidy(mod2, conf.int = TRUE) %>%
 kable(model2_tidy %>% select(term, estimate, std.error, p.value), digits = 3, caption = "Model 2 coefficients")
 ```
 
-```{r model2-plot}
-ggplot(df, aes(x = AGE, y = Exams_percent, color = Gender)) +
-  geom_jitter(alpha = 0.45, width = 0.2, height = 0.01, size = 1.8) +
-  geom_smooth(method = "lm", se = FALSE, linewidth = 1) +
-  facet_wrap(~ URM) +
-  labs(
-    title = "Exam performance by age, gender, and URM status",
-    x = "Age",
-    y = "Exam percentage",
-    color = "Gender"
-  ) +
-  scale_color_brewer(palette = "Dark2")
-```
-
 ### Model 3: grading basis and gender
 
 This model asks whether the grading structure of the course changes the observed gender pattern.
@@ -173,19 +196,6 @@ model3_tidy <- tidy(mod3, conf.int = TRUE) %>%
   filter(term != "(Intercept)")
 
 kable(model3_tidy %>% select(term, estimate, std.error, p.value), digits = 3, caption = "Model 3 coefficients")
-```
-
-```{r model3-plot}
-ggplot(df, aes(x = Gender, y = Exams_percent, fill = Gender)) +
-  geom_boxplot(alpha = 0.8, outlier.alpha = 0.2) +
-  facet_wrap(~ GRADING_BASIS_ENRL) +
-  labs(
-    title = "Exam performance by gender across grading schemes",
-    x = "Gender",
-    y = "Exam percentage"
-  ) +
-  scale_fill_brewer(palette = "Set2") +
-  theme(legend.position = "none")
 ```
 
 ### Model 4: full contextual model

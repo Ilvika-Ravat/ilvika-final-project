@@ -1,0 +1,47 @@
+---
+title: "Variables"
+---
+
+```{r variable-table}
+var_desc <- tibble::tribble(
+  ~Variable, ~Type, ~Description,
+  "SUBJECT", "Categorical", "The academic subject of the course, such as introductory biology.",
+  "Coursecode", "Categorical", "The course identifier used to distinguish specific sections or offerings.",
+  "GRADING_BASIS_ENRL", "Categorical", "The grading basis used for enrollment in the course, such as A-F or S-N.",
+  "Gender", "Categorical", "A binary indicator for student gender, recoded here as Women and Men.",
+  "AGE", "Numeric", "Student age in years.",
+  "YearSchool", "Categorical", "The student's class standing, such as freshman, sophomore, junior, or senior.",
+  "COMP_ACT_SCORE", "Numeric", "Composite ACT score, used as a proxy for academic preparation.",
+  "URM", "Categorical", "Underrepresented minority indicator, recoded here as URM and Non-URM.",
+  "msl01", "Numeric", "One item from the motivation and learning-strategy survey instrument.",
+  "msl02", "Numeric", "One item from the motivation and learning-strategy survey instrument.",
+  "msl03", "Numeric", "One item from the motivation and learning-strategy survey instrument.",
+  "msl04", "Numeric", "One item from the motivation and learning-strategy survey instrument.",
+  "msl05", "Numeric", "One item from the motivation and learning-strategy survey instrument.",
+  "msl06", "Numeric", "One item from the motivation and learning-strategy survey instrument.",
+  "msl07", "Numeric", "One item from the motivation and learning-strategy survey instrument.",
+  "msl08", "Numeric", "One item from the motivation and learning-strategy survey instrument.",
+  "msl09", "Numeric", "One item from the motivation and learning-strategy survey instrument.",
+  "msl10", "Numeric", "One item from the motivation and learning-strategy survey instrument.",
+  "msl11", "Numeric", "One item from the motivation and learning-strategy survey instrument.",
+  "msl12", "Numeric", "One item from the motivation and learning-strategy survey instrument.",
+  "msl13", "Numeric", "One item from the motivation and learning-strategy survey instrument.",
+  "msl14", "Numeric", "One item from the motivation and learning-strategy survey instrument.",
+  "msl15", "Numeric", "One item from the motivation and learning-strategy survey instrument.",
+  "msl16", "Numeric", "One item from the motivation and learning-strategy survey instrument.",
+  "msl17", "Numeric", "One item from the motivation and learning-strategy survey instrument.",
+  "msl18", "Numeric", "One item from the motivation and learning-strategy survey instrument.",
+  "msl19", "Numeric", "One item from the motivation and learning-strategy survey instrument.",
+  "msl20", "Numeric", "One item from the motivation and learning-strategy survey instrument.",
+  "Exams_percent", "Numeric", "The share of the course grade associated with exams.",
+  "Course_percent", "Numeric", "The share of the course grade associated with coursework.",
+  "NonExam_percent", "Numeric", "The share of the course grade associated with non-exam activities.",
+  "ZExams_percent", "Numeric", "Z-scored version of Exams_percent for standardized comparison.",
+  "ZCourse_percent", "Numeric", "Z-scored version of Course_percent.",
+  "ZNonExam_percent", "Numeric", "Z-scored version of NonExam_percent."
+)
+
+knitr::kable(var_desc, caption = "Variable descriptions")
+```
+
+The table below explains the variables in the dataset. The response variables describe the share of course performance associated with exams, coursework, and non-exam assessment, while the predictor variables capture student background and course context.

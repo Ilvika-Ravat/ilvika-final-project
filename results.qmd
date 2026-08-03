@@ -1,0 +1,140 @@
+---
+title: "Results"
+---
+
+```{r setup}
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(broom)
+library(knitr)
+
+theme_set(theme_minimal(base_size = 14))
+
+df <- read_tsv(
+  "PLoSOneData_ExamsDisWomen.csv",
+  na = c("", " "),
+  locale = locale(encoding = "UTF-8"),
+  guess_max = 10000
+) %>%
+  mutate(
+    Gender = factor(Gender, levels = c(0, 1), labels = c("Women", "Men")),
+    URM = factor(URM, levels = c(0, 1), labels = c("Non-URM", "URM")),
+    YearSchool = factor(YearSchool),
+    GRADING_BASIS_ENRL = factor(GRADING_BASIS_ENRL),
+    SUBJECT = factor(SUBJECT),
+    AGE = as.numeric(AGE),
+    Coursecode = as.character(Coursecode)
+  )
+```
+
+## Model 1: academic preparation and demographics
+
+This first model examines whether exam performance varies with gender, age, ACT score, URM status, and class standing.
+
+```{r model1}
+mod1 <- lm(Exams_percent ~ Gender + AGE + COMP_ACT_SCORE + URM + YearSchool, data = df)
+
+model1_tidy <- tidy(mod1, conf.int = TRUE) %>%
+  filter(term != "(Intercept)") %>%
+  mutate(term = gsub("Gender", "Gender: ", term),
+         term = gsub("URM", "URM: ", term))
+
+kable(model1_tidy %>% select(term, estimate, std.error, p.value), digits = 3, caption = "Model 1 coefficients")
+```
+
+```{r model1-plot}
+ggplot(df, aes(x = COMP_ACT_SCORE, y = Exams_percent, color = Gender, shape = URM)) +
+  geom_point(alpha = 0.65, size = 2.2) +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 1) +
+  facet_wrap(~ YearSchool) +
+  labs(
+    title = "Exam performance by academic preparation and student background",
+    x = "Composite ACT score",
+    y = "Exam percentage",
+    color = "Gender",
+    shape = "URM status"
+  ) +
+  theme(legend.position = "bottom") +
+  scale_color_brewer(palette = "Set2")
+```
+
+## Model 2: interaction between gender and URM status
+
+This model tests whether the relationship between gender and exam performance changes by URM status.
+
+```{r model2}
+mod2 <- lm(Exams_percent ~ Gender * URM + AGE + COMP_ACT_SCORE + YearSchool, data = df)
+
+model2_tidy <- tidy(mod2, conf.int = TRUE) %>%
+  filter(term != "(Intercept)")
+
+kable(model2_tidy %>% select(term, estimate, std.error, p.value), digits = 3, caption = "Model 2 coefficients")
+```
+
+```{r model2-plot}
+ggplot(df, aes(x = AGE, y = Exams_percent, color = Gender)) +
+  geom_jitter(alpha = 0.45, width = 0.2, height = 0.01, size = 1.8) +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 1) +
+  facet_wrap(~ URM) +
+  labs(
+    title = "Exam performance by age, gender, and URM status",
+    x = "Age",
+    y = "Exam percentage",
+    color = "Gender"
+  ) +
+  scale_color_brewer(palette = "Dark2")
+```
+
+## Model 3: grading basis and gender
+
+This model asks whether the grading structure of the course changes the observed gender pattern.
+
+```{r model3}
+mod3 <- lm(Exams_percent ~ Gender * GRADING_BASIS_ENRL + AGE + COMP_ACT_SCORE + URM, data = df)
+
+model3_tidy <- tidy(mod3, conf.int = TRUE) %>%
+  filter(term != "(Intercept)")
+
+kable(model3_tidy %>% select(term, estimate, std.error, p.value), digits = 3, caption = "Model 3 coefficients")
+```
+
+```{r model3-plot}
+ggplot(df, aes(x = Gender, y = Exams_percent, fill = Gender)) +
+  geom_boxplot(alpha = 0.8, outlier.alpha = 0.2) +
+  facet_wrap(~ GRADING_BASIS_ENRL) +
+  labs(
+    title = "Exam performance by gender across grading schemes",
+    x = "Gender",
+    y = "Exam percentage"
+  ) +
+  scale_fill_brewer(palette = "Set2") +
+  theme(legend.position = "none")
+```
+
+## Model 4: full contextual model
+
+The final model combines the main student-background and course-context variables together.
+
+```{r model4}
+mod4 <- lm(Exams_percent ~ Gender + AGE + COMP_ACT_SCORE + URM + YearSchool + GRADING_BASIS_ENRL, data = df)
+
+model4_tidy <- tidy(mod4, conf.int = TRUE) %>%
+  filter(term != "(Intercept)")
+
+kable(model4_tidy %>% select(term, estimate, std.error, p.value), digits = 3, caption = "Model 4 coefficients")
+```
+
+```{r model-comparison}
+model_compare <- bind_rows(
+  glance(mod1) %>% mutate(Model = "Model 1: demographics"),
+  glance(mod2) %>% mutate(Model = "Model 2: gender × URM"),
+  glance(mod3) %>% mutate(Model = "Model 3: grading basis"),
+  glance(mod4) %>% mutate(Model = "Model 4: full context")
+) %>%
+  select(Model, r.squared, adj.r.squared, AIC)
+
+kable(model_compare, digits = 3, caption = "Model comparison")
+```
+
+Across these models, the pattern suggests that exam performance is shaped by both student characteristics and course design. Gender differences appear alongside preparation measures and grading context, which is why it is useful to compare multiple regression specifications rather than relying on a single model.

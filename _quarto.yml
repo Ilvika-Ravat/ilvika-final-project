@@ -1,0 +1,28 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Gender, assessment, and performance in introductory biology"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Overview
+      - href: variables.qmd
+        text: Variables
+      - href: results.qmd
+        text: Results
+      - href: study.qmd
+        text: Study Context
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    code-fold: true
+    embed-resources: true
+
+execute:
+  echo: false
+  warning: false
+  message: false

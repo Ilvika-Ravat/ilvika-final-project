@@ -1,0 +1,37 @@
+---
+title: "Overview"
+---
+
+```{r setup}
+library(readr)
+library(dplyr)
+library(knitr)
+
+# Read the tab-delimited dataset and clean the main grouping variables.
+df <- read_tsv(
+  "PLoSOneData_ExamsDisWomen.csv",
+  na = c("", " "),
+  locale = locale(encoding = "UTF-8"),
+  guess_max = 10000
+) %>%
+  mutate(
+    Gender = factor(Gender, levels = c(0, 1), labels = c("Women", "Men")),
+    URM = factor(URM, levels = c(0, 1), labels = c("Non-URM", "URM")),
+    YearSchool = factor(YearSchool),
+    GRADING_BASIS_ENRL = factor(GRADING_BASIS_ENRL),
+    SUBJECT = factor(SUBJECT),
+    AGE = as.numeric(AGE),
+    Coursecode = as.character(Coursecode)
+  )
+```
+
+This report explores how exam-based assessment relates to student performance in introductory biology using the data file provided in this project. The analysis focuses on how student outcomes vary by gender, academic preparation, underrepresented minority status, course grading design, and other contextual factors.
+
+```{r overview-table}
+overview_tbl <- tibble::tibble(
+  Metric = c("Students", "Courses", "Gender groups", "URM groups", "Grading schemes"),
+  Value = c(nrow(df), n_distinct(df$Coursecode), n_distinct(df$Gender), n_distinct(df$URM), n_distinct(df$GRADING_BASIS_ENRL))
+)
+
+kable(overview_tbl, caption = "Dataset overview")
+```

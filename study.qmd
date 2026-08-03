@@ -1,0 +1,7 @@
+---
+title: "Study Context"
+---
+
+The original study behind this dataset is available from Dryad here: <https://datadryad.org/dataset/doi%3A10.5061/dryad.53t31?utm>.
+
+The study examines whether exam-based assessment may disadvantage women in introductory biology courses and provides the broader scientific context for the variables used in this analysis.

@@ -25,7 +25,15 @@ df <- read_tsv(
   )
 ```
 
+::: {.hero-card}
+## Exploring assessment and equity in introductory biology
+
 This report explores how exam-based assessment relates to student performance in introductory biology using the data file provided in this project. The analysis focuses on how student outcomes vary by gender, academic preparation, underrepresented minority status, course grading design, and other contextual factors.
+:::
+
+::: {.callout}
+This website is designed to make the project easier to explore by separating the story into clear sections: background, variables, results, and study context.
+:::
 
 ```{r overview-table}
 overview_tbl <- tibble::tibble(

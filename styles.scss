@@ -1,0 +1,45 @@
+/*-- scss:defaults --*/
+$primary: #1f4d74;
+$secondary: #5b8db8;
+$body-color: #23374d;
+$body-bg: #f8fbff;
+$link-color: #1f4d74;
+$navbar-bg: #0f2f46;
+$navbar-fg: #ffffff;
+$navbar-hl: #9fd3ff;
+
+/*-- scss:rules --*/
+body {
+  font-family: "Times New Roman", "Times", serif;
+  line-height: 1.65;
+}
+
+.navbar {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+}
+
+.hero-card {
+  background: linear-gradient(135deg, #1f4d74 0%, #5b8db8 100%);
+  color: white;
+  border-radius: 14px;
+  padding: 1.5rem 1.8rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 10px 28px rgba(31, 77, 116, 0.18);
+}
+
+.callout {
+  background: #eef6ff;
+  border-left: 5px solid #5b8db8;
+  padding: 1rem 1.2rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+.table {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.quarto-title-block {
+  margin-bottom: 1.2rem;
+}

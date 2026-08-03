@@ -45,3 +45,7 @@ knitr::kable(var_desc, caption = "Variable descriptions")
 ```
 
 The table below explains the variables in the dataset. The response variables describe the share of course performance associated with exams, coursework, and non-exam assessment, while the predictor variables capture student background and course context.
+
+::: {.callout}
+Understanding these variables is essential because the analysis is about how student characteristics and course design work together to shape performance.
+:::

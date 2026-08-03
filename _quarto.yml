@@ -17,10 +17,13 @@ website:
 
 format:
   html:
-    theme: cosmo
+    theme:
+      light: [cosmo, styles.scss]
+      dark: [cosmo, styles.scss]
     toc: true
     code-fold: true
     embed-resources: true
+    page-layout: full
 
 execute:
   echo: false

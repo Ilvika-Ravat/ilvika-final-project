@@ -56,25 +56,4 @@ ggplot(df, aes(x = Gender, fill = Gender)) +
   scale_fill_brewer(palette = "Set2") +
   theme(legend.position = "none")
 ```
-
-```{r exam-histogram}
-ggplot(df, aes(x = Exams_percent)) +
-  geom_histogram(bins = 25, fill = "#4C78A8", color = "white") +
-  labs(
-    title = "Distribution of exam percentages",
-    x = "Exam percentage",
-    y = "Count"
-  )
-```
-
-```{r grading-chart}
-ggplot(df, aes(x = GRADING_BASIS_ENRL, fill = GRADING_BASIS_ENRL)) +
-  geom_bar() +
-  labs(
-    title = "Distribution of grading schemes",
-    x = "Grading basis",
-    y = "Count"
-  ) +
-  scale_fill_brewer(palette = "Dark2") +
-  theme(legend.position = "none")
-```
+ 

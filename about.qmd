@@ -1,0 +1,7 @@
+---
+title: "About the Author"
+---
+
+# About the Author
+
+Ilvika Ravat is a rising junior in high school with a strong interest in data science and a growing commitment to a career in STEM. She enjoys conducting data-driven research and developing her analytical skills.

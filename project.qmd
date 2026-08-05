@@ -41,11 +41,13 @@ df <- read_tsv(
   )
 ```
 
-# Overview {.panel-tabset}
+# Overview
+
+::: {.panel-tabset}
 
 ## About
 
-Ilvika Ravat is the author of this project and is passionate about data science and exploring future opportunities in STEM. She is a rising junior in high school and is eager to continue building her skills in research and analysis.
+Ilvika Ravat is a rising junior in high school with a strong interest in data science and a growing commitment to a career in STEM. She enjoys conducting data-driven research and developing her analytical skills.
 
 ## Study overview
 
@@ -105,41 +107,11 @@ var_desc <- tibble::tribble(
 
 kable(var_desc, caption = "Variable descriptions")
 ```
+ 
 
-## More Graphs
+## Results
 
-The age-based plot illustrates how exam percentages vary by gender and whether that relationship differs for URM and non-URM students.
-
-```{r more-graphs-model2}
-ggplot(df, aes(x = AGE, y = Exams_percent, color = Gender)) +
-  geom_jitter(alpha = 0.45, width = 0.2, height = 0.01, size = 1.8) +
-  geom_smooth(method = "lm", se = FALSE, linewidth = 1) +
-  facet_wrap(~ URM) +
-  labs(
-    title = "Exam performance by age, gender, and URM status",
-    x = "Age",
-    y = "Exam percentage",
-    color = "Gender"
-  ) +
-  scale_color_brewer(palette = "Dark2")
-```
-
-The boxplot summarizes how exam percentages are distributed across gender within each grading scheme, making it easier to compare the spread of outcomes by course structure.
-
-```{r more-graphs-model3}
-ggplot(df, aes(x = Gender, y = Exams_percent, fill = Gender)) +
-  geom_boxplot(alpha = 0.8, outlier.alpha = 0.2) +
-  facet_wrap(~ GRADING_BASIS_ENRL) +
-  labs(
-    title = "Exam performance by gender across grading schemes",
-    x = "Gender",
-    y = "Exam percentage"
-  ) +
-  scale_fill_brewer(palette = "Set2") +
-  theme(legend.position = "none")
-```
-
-## Results {.panel-tabset}
+::: {.panel-tabset}
 
 ### Model 1: academic preparation and demographics
 
@@ -227,6 +199,8 @@ kable(model_compare, digits = 3, caption = "Model comparison")
 
 Across these models, the pattern suggests that exam performance is shaped by both student characteristics and course design. Gender differences appear alongside preparation measures and grading context, which is why it is useful to compare multiple regression specifications rather than relying on a single model.
 
+:::
+
 ## Study context
 
 The original study behind this dataset is available from Dryad here: <https://datadryad.org/dataset/doi%3A10.5061/dryad.53t31?utm>.
@@ -243,3 +217,4 @@ Published Oct 05, 2018 on Dryad. https://doi.org/10.5061/dryad.53t31
 Abstract
 
 The gender gap in STEM fields has prompted a great deal of discussion, but what factors underlie performance deficits remain poorly understood. We show that female students underperformed on exams compared to their male counterparts across ten large introductory biology course sections in fall 2016 (N > 1500 students). Females also reported higher levels of test anxiety and course-relevant science interest. Results from mediation analyses revealed an intriguing pattern: for female students only, and regardless of their academic standing, test anxiety negatively impacted exam performance, while interest in the course-specific science topics increased exam performance. Thus, instructors seeking equitable classrooms can aim to decrease test anxiety and increase student interest in science course content. We provide strategies for mitigating test anxiety and suggestions for alignment of course content with student interest, with the hope of successfully reimagining the STEM pathway as one that is equally accessible to all.
+

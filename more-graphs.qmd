@@ -1,0 +1,90 @@
+---
+title: "More Graphs"
+---
+
+# More Graphs
+
+```{r setup-more-graphs}
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(broom)
+library(knitr)
+library(tidyr)
+
+theme_set(theme_minimal(base_size = 14))
+
+# Read the dataset
+df <- read_tsv(
+  "PLoSOneData_ExamsDisWomen.csv",
+  na = c("", " "),
+  locale = locale(encoding = "UTF-8"),
+  guess_max = 10000
+) %>%
+  mutate(
+    Gender = factor(Gender, levels = c(0, 1), labels = c("Women", "Men")),
+    URM = factor(URM, levels = c(0, 1), labels = c("Non-URM", "URM")),
+    YearSchool = factor(YearSchool),
+    GRADING_BASIS_ENRL = factor(GRADING_BASIS_ENRL),
+    SUBJECT = factor(SUBJECT),
+    AGE = as.numeric(AGE),
+    Coursecode = as.character(Coursecode)
+  )
+```
+
+The age-based plot illustrates how exam percentages vary by gender and whether that relationship differs for URM and non-URM students.
+
+```{r more-graphs-model2}
+ggplot(df, aes(x = AGE, y = Exams_percent, color = Gender)) +
+  geom_jitter(alpha = 0.45, width = 0.2, height = 0.01, size = 1.8) +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 1) +
+  facet_wrap(~ URM) +
+  labs(
+    title = "Exam performance by age, gender, and URM status",
+    x = "Age",
+    y = "Exam percentage",
+    color = "Gender"
+  ) +
+  scale_color_brewer(palette = "Dark2")
+```
+
+The boxplot summarizes how exam percentages are distributed across gender within each grading scheme, making it easier to compare the spread of outcomes by course structure.
+
+```{r more-graphs-model3}
+ggplot(df, aes(x = Gender, y = Exams_percent, fill = Gender)) +
+  geom_boxplot(alpha = 0.8, outlier.alpha = 0.2) +
+  facet_wrap(~ GRADING_BASIS_ENRL) +
+  labs(
+    title = "Exam performance by gender across grading schemes",
+    x = "Gender",
+    y = "Exam percentage"
+  ) +
+  scale_fill_brewer(palette = "Set2") +
+  theme(legend.position = "none")
+```
+
+The histogram below shows the distribution of exam percentages across students, which helps reveal whether exam scores are clustered around particular values or broadly dispersed.
+
+```{r more-graphs-exam-histogram}
+ggplot(df, aes(x = Exams_percent)) +
+  geom_histogram(bins = 25, fill = "#4C78A8", color = "white") +
+  labs(
+    title = "Distribution of exam percentages",
+    x = "Exam percentage",
+    y = "Count"
+  )
+```
+
+The bar chart below displays the count of courses by grading scheme, illustrating which grading bases are most common in the dataset.
+
+```{r more-graphs-grading-chart}
+ggplot(df, aes(x = GRADING_BASIS_ENRL, fill = GRADING_BASIS_ENRL)) +
+  geom_bar() +
+  labs(
+    title = "Distribution of grading schemes",
+    x = "Grading basis",
+    y = "Count"
+  ) +
+  scale_fill_brewer(palette = "Dark2") +
+  theme(legend.position = "none")
+```

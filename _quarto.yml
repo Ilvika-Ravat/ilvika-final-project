@@ -16,6 +16,10 @@ website:
         text: Model
       - href: study.qmd
         text: Study Context
+      - href: more-graphs.qmd
+        text: More Graphs
+      - href: about.qmd
+        text: About
 
 format:
   html:
